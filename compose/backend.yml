@@ -166,6 +166,22 @@ services:
     ports:
       - 5051:5432
 
+  ccd-setup:
+    build:
+      context: docker/ccd-setup
+    image: hmcts/ccd-setup
+    environment:
+      WAIT_HOSTS: ccd-definition-store-api:4451, service-auth-provider-api:8080, sidam-api:5000
+      WAIT_HOSTS_TIMEOUT: 280
+      WAIT_BEFORE_HOSTS: 5
+      WAIT_SLEEP_INTERVAL: 5
+    depends_on:
+      - sidam-api
+      - ccd-definition-store-api
+      - idam-web-admin
+    volumes:
+      - .:/scripts    
+  
   am-database:
     image: hmcts.azurecr.io/am-db
     container_name: access_management_db

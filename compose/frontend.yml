@@ -53,6 +53,11 @@ services:
       - sidam-api
     depends_on:
       - sidam-api
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8080"]
+        interval: 30s
+        timeout: 10s
+        retries: 5  
 
   idam-web-public:
     image: "hmcts.azurecr.io/hmcts/sidam/idam-web-public:1.0.0"

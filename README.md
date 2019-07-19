@@ -74,8 +74,15 @@ However, 6 more steps are required to correctly configure SIDAM and CCD before i
 
 ### 1. Configure Oauth2 Client of CCD Gateway on SIDAM
 
+This ccd-docker project is going to pull images and  run an SIDAM instance in your local enviroment. 
+
 An oauth2 client should be configured for ccd-gateway application, on SIDAM Web Admin.
 You need to login to the SIDAM Web Admin with the URL and logic credentials here: https://tools.hmcts.net/confluence/x/eQP3P
+
+Please see section Idam Web Admin and login  to http://localhost:8082/login use the creditains in the link metioned above.
+
+
+
 
 Navigate to Home > Manage Services > Add a new Service
 

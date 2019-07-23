@@ -8,7 +8,7 @@
 
 microservice="${1:-ccd_gw}"
 
-curl -v -X POST \
+curl --fail --silent --show-error -X POST \
   -H "Content-Type: application/json" \
   -d '{"microservice":"'${microservice}'"}' \
   http://service-auth-provider-api:8080/testing-support/lease

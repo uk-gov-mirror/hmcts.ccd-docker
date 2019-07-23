@@ -21,7 +21,7 @@ binFolder=$(dirname "$0")
 userToken="$(/idam-user-token.sh)"
 serviceToken="$(/idam-service-token.sh ccd_gw)"
 
-curl \
+curl -v \
 http://ccd-definition-store-api:4451/import \
 -H "Authorization: Bearer ${userToken}" \
 -H "ServiceAuthorization: Bearer ${serviceToken}" \

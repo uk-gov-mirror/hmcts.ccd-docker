@@ -23,8 +23,8 @@ if [ -z "$rolesStr" ]
     exit 1
 fi
 
-# IFS=',' read -ra roles <<< "$rolesStr"
-echo "$rolesStr" | IFS=',' read -r roles
+IFS=',' read -ra roles <<< "$rolesStr"
+# echo "$rolesStr" | IFS=',' read -r roles
 
 # Build roles JSON array
 rolesJson="["
@@ -38,9 +38,11 @@ for i in "${roles[@]}"; do
 done
 rolesJson="${rolesJson}]"
 
-curl -v --request -XPOST \
+
+curl --fail --silent --show-error --request POST \
   http://sidam-api:5000/testing-support/accounts \
   -H "Content-Type: application/json" \
   -d '{"email":"'${email}'","forename":"'${forename}'","surname":"'${surname}'","password":"'${password}'","levelOfAccess":1, "roles": '${rolesJson}', "userGroup": {"code": "caseworker"}}'
 
+echo "caseworker '${email}' "
   

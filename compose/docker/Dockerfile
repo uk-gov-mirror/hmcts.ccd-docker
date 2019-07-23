@@ -15,5 +15,7 @@ RUN chmod +x /wait
 RUN chmod +x definitions.xlsx
 RUN chmod +x /*.sh
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["all"]
+CMD "/wait" && "/idam-client-setup.sh" && "/do-ccd-init.sh" && "/ccd-import-definition.sh" "definitions.xlsx"
+# CMD "/wait" && "/idam-client-setup.sh" 
+# CMD "/wait" && "/do-ccd-init.sh" && "/ccd-import-definition.sh" "definitions.xlsx"
+# CMD "/wait" && "/ccd-import-definition.sh" "definitions.xlsx"

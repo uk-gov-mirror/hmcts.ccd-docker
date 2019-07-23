@@ -28,14 +28,11 @@ esac
 userToken="$(./idam-user-token.sh)"
 serviceToken="$(./idam-service-token.sh ccd_gw)"
 
-echo $userToken
-
-echo $serviceToken
-
-
-curl -v --request XPUT \
+curl --fail --silent --show-error --request PUT \
   --url http://ccd-definition-store-api:4451/api/user-role \
   --header "Authorization: Bearer ${userToken}" \
   --header "ServiceAuthorization: Bearer ${serviceToken}" \
   --header "Content-Type: application/json" \
   --data '{"role":"'${role}'","security_classification":"'${classification}'"}'
+
+echo "creating ccd role '${role}'"

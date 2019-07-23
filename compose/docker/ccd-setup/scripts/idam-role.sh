@@ -11,7 +11,7 @@ if [ -z "$role" ]
 fi
 authToken=$(curl -H 'Content-Type: application/x-www-form-urlencoded' -XPOST "${IDAM_URI}/loginUser?username=idamOwner@hmcts.net&password=Ref0rmIsFun" | jq -r .api_auth_token)
 
-curl -v --request POST \
+curl --request POST \
   --url "${IDAM_URI}/roles" \
   --header "Authorization: AdminApiAuthToken ${authToken}" \
   --header "Content-Type: application/json" \

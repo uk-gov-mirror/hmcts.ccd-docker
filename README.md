@@ -16,6 +16,7 @@
 
 ## Prerequisites
 
+
 - [Docker](https://www.docker.com)
 
 *Memory and CPU allocations may need to be increased for successful execution of ccd applications altogether. (On Preferences / Advanced)*

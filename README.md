@@ -88,49 +88,25 @@ Once the containers are running, CCD's frontend can be accessed at [http://local
 
 However, 6 more steps are required to correctly configure SIDAM and CCD before it can be used:
 
-### 1. Configure Oauth2 Client of CCD Gateway on SIDAM
-
-An oauth2 client should be configured for ccd-gateway application, on SIDAM Web Admin.
-You need to login to the SIDAM Web Admin with the URL and logic credentials here: https://tools.hmcts.net/confluence/x/eQP3P
-
-Navigate to Home > Manage Services > Add a new Service
-
-On the **Add Service** screen the following fields are required:
-```
-label : <any>
-description : <any>
-client_id : ccd_gateway
-client_secret : ccd_gateway_secret
-new redirect_uri (click 'Add URI' before saving) : http://localhost:3451/oauth2redirect
-```
-### 2. Create Idam roles
-After defining the above client/service, the following roles must be defined under this client/service (Home > Manage Roles > select your service > Role Label)
-(some of these roles are used in the automated functional test):
-
-    * ccd-import
-    * caseworker
-    * caseworker-autotest1
-    * caseworker-autotest2
-
-Don't worry about the *Assignable roles* section when adding roles
-
-Once the roles are defined under the client/service, go to the service configuration for the service you created in Step 1 (Home > Manage Services > select your service) and select `ccd-import` role radio option under **Private Beta Role** section
- 
-**Any business-related roles like `caseworker`,`caseworker-<jurisdiction>` etc to be used in CCD later must also be defined under the client configuration at this stage.**
-
-### 3. Create users and roles
-
-#### 3.1 Automated creation
-
-A script is provided that sets up some initial users and roles for running functional tests. Execute the following:
-
+### 1 Setup IDAM data
 ```bash
-./bin/create-initial-roles-and-users.sh
+   ./bin/idam-client-setup.sh
 ```
 
-#### 3.2 Manual creation
+To check the IDAM data, you can log into IDAM-web `http://localhost:8082/login` with `idamOwner@hmcts.net/Ref0rmIsFun`.
 
-##### 3.2.1 Create a Default User with "ccd-import" Role
+##### 2 Generate roles, json->xls and import
+
+###### Create roles and users
+```bash
+   ./bin/ccd-add-all-roles.sh
+```
+You can check the user and roles on the IDAM-web by searching for `ProbateSolCW1@gmail.com` on Manager Users page.
+
+
+#### 2.1 Manual creation
+
+##### 2.2.1 Create a Default User with "ccd-import" Role
 
 A user with import role should be created using the following command:
 
@@ -141,7 +117,7 @@ A user with import role should be created using the following command:
 This call will create a user in SIDAM with ccd-import role. This user will be used to acquire a user token with "ccd-import" role.
 
 
-##### 3.2.2 Add Initial Roles
+##### 2.2.2 Add Initial Roles
 
 Before a definition can be imported, roles referenced in a case definition Authorisation tabs must be defined in CCD using:
 
@@ -153,7 +129,7 @@ Parameters:
 - `role`: Name of the role, e.g: `caseworker-divorce`.
 - `classification`: Optional. One of `PUBLIC`, `PRIVATE` or `RESTRICTED`. Defaults to `PUBLIC`.
 
-##### 3.2.3 Add Initial Case Worker Users
+##### 2.2.3 Add Initial Case Worker Users
 
 A caseworker user can be created in IDAM using the following command:
 
@@ -180,7 +156,7 @@ For example:
 
           For ccd-data-store-api functional tests set TEST_URL=http://localhost:4452
 
-### 4. Import case definition
+### 3. Import case definition
 
 To reduce impact on performances, case definitions are imported via the command line rather than using CCD's dedicated UI:
 

@@ -34,12 +34,21 @@ git clone git@github.com:hmcts/ccd-docker.git
 ```
 
 Login to the Azure Container registry:
+```bash
+  az login
+  az acr login --name hmctspublic --subscription DCD-CNP-Prod
+  az acr login --name hmctsprivate --subscription DCD-CNP-Prod
+```
+Reset your docker images, containers etc.
+```bash
+   docker image rm $(docker image ls -a -q)
+   docker container rm $(docker container ls -a -q)
+   docker volume rm $(docker volume ls -q)
+```
 
 ```bash
 ./ccd login
 ```
-Note:
-if you experience any error with the above command, try `az login` first
 
 For [Azure Authentication for pulling latest docker images](#azure-authentication-for-pulling-latest-docker-images)
 

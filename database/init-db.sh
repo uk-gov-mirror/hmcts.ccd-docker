@@ -2,6 +2,16 @@
 
 set -e
 
+# Draft Store database
+psql -v ON_ERROR_STOP=1 --username postgres --set USERNAME=draftstore --set PASSWORD=draftstore <<-EOSQL
+  CREATE USER :USERNAME WITH PASSWORD ':PASSWORD';
+
+  CREATE DATABASE draftstore
+    WITH OWNER = :USERNAME
+    ENCODING = 'UTF-8'
+    CONNECTION LIMIT = -1;
+EOSQL
+
 if [ -z "$DB_USERNAME" ] || [ -z "$DB_PASSWORD" ]; then
   echo "ERROR: Missing environment variable. Set value for both 'DB_USERNAME' and 'DB_PASSWORD'."
   exit 1

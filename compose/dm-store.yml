@@ -18,6 +18,7 @@ services:
   ccd-data-store-api:
     environment:
       CCD_DM_DOMAIN: http://dm-store:8080
+      DM_STORE_BASE_URL: http://dm-store:8080
 
   service-auth-provider-api:
     environment:
@@ -75,7 +76,7 @@ services:
 
 
   ccd-case-document-am-api:
-    image: "hmctspublic.azurecr.io/ccd/case-document-am-api:pr-22"
+    image: "hmctspublic.azurecr.io/ccd/case-document-am-api:latest"
     environment:
       CCD_DOCUMENT_API_IDAM_KEY: "${IDAM_KEY_CASE_DOCUMENT}"
       CASE_DOCUMENT_S2S_AUTHORISED_SERVICES: ccd_case_document_am_api,ccd_gw,xui_webapp,ccd_data,bulk_scan_processor

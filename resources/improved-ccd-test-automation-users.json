@@ -160,6 +160,48 @@
 				"code": "caseworker-caa"
 			}
 		]
+	},
+	{
+		"forename": "Bill",
+		"surname": "Solicington",
+		"email": "befta.master.solicitor.bill@gmail.com",
+		"password": "***",
+		"active": true,
+		"roles": [
+			{
+				"code": "caseworker"
+			},
+			{
+				"code": "pui-case-manager"
+			},
+			{
+				"code": "caseworker-befta_master"
+			},
+			{
+				"code": "caseworker-befta_master-solicitor"
+			}
+		]
+	},
+	{
+		"forename": "Emma",
+		"surname": "Solicington",
+		"email": "befta.master.solicitor.emma@gmail.com",
+		"password": "***",
+		"active": true,
+		"roles": [
+			{
+				"code": "caseworker"
+			},
+			{
+				"code": "pui-case-manager"
+			},
+			{
+				"code": "caseworker-befta_master"
+			},
+			{
+				"code": "caseworker-befta_master-solicitor"
+			}
+		]
 	}
 ]
 

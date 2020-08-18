@@ -66,4 +66,5 @@ cd "$parent_path"
 ./idam-create-caseworker.sh caseworker,caseworker-befta_master,caseworker-befta_master-solicitor_3 master.solicitor.3@gmail.com Pa55word11 befta solc3
 ./idam-create-caseworker.sh caseworker,caseworker-befta_master,caseworker-befta_master-solicitor befta.master.solicitor.becky@gmail.com Pa55word11 Solicington Becky
 ./idam-create-caseworker.sh caseworker,caseworker-befta_master,caseworker-befta_master-solicitor befta.master.solicitor.benjamin@gmail.com Pa55word11 Solicington Benjamin
+./idam-create-caseworker.sh caseworker,caseworker-befta_master,caseworker-befta_master-solicitor befta.master.solicitor.emma@gmail.com Pa55word11 Solicington Emma
 ./idam-create-caseworker.sh caseworker,caseworker-caa befta.caseworker.caa@gmail.com Pa55word11 CAA Caseworker

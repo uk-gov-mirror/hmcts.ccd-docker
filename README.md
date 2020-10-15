@@ -152,23 +152,13 @@ At this point most users can run the following 3 scripts
 ./bin/add-roles.sh
 ./bin/add-users.sh
 ```
-
-to get their IDAM environment ready and then move on to the [Ready for take-off](###Ready-for-take-off) section.
-
-A more in depth explanation of the scripts is detailed below 
-
-### 1 Setup IDAM data
-```bash
-   ./bin/idam-client-setup.sh
-```
-
 To check the IDAM data, you can log into IDAM-web `http://localhost:8082/login` with `idamOwner@hmcts.net/Ref0rmIsFun`.
 
 ##### 2 Generate roles, json->xls and import
 
 ###### Create roles and users
 ```bash
-   ./bin/ccd-add-all-roles.sh
+   ./bin/ccd-add-all-div-roles.sh
 ```
 You can check the user and roles on the IDAM-web by searching for `ProbateSolCW1@gmail.com` on Manager Users page.
 

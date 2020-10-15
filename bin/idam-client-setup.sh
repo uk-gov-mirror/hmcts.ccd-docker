@@ -1,6 +1,4 @@
 #!/bin/sh
-##Create all the roles
-./bin/idam-client-setup-roles.sh
 
 ##Set up client services
 ./bin/idam-client-setup-service.sh divorce dummysecret

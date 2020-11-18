@@ -156,6 +156,120 @@ To check the IDAM data, you can log into IDAM-web `http://localhost:8082/login` 
 
 ##### 2 Generate roles, json->xls and import
 
+```bash
+./bin/add-idam-clients.sh
+```
+
+You may verify the service has been added by logging in to the SIDAM Web Admin with the URL and 
+logic credentials here: 
+
+https://tools.hmcts.net/confluence/x/eQP3P
+
+Navigate to 
+
+`Home > Manage Services`
+
+Optionally - to add any further IDAM service clients you can update the 
+
+```bash
+./bin/add-idam-clients.sh
+```
+
+to add a new entry and re-run the script (any entries in this file that already exist are skipped)
+
+`${dir}/utils/idam-create-service.sh LABEL CLIENT_ID CLIENT_SECRET REDIRECT_URL SELF_REGISTRATION SCOPE`
+
+---
+**NOTE**
+
+* SELF_REGISTRATION - a boolean parameter, defaults to a value of "false" if omitted
+* SCOPE - a space delimited string parameter, defaults to a value of "openid profile roles" if omitted
+---
+
+#### Manual Configuration steps
+
+Instead of running the above scripts you can add the services manually using the SIDAM Web UI
+
+You need to login to the SIDAM Web Admin with the URL and logic credentials here: https://tools.hmcts.net/confluence/x/eQP3P
+
+Navigate to 
+
+```bash
+Home > Manage Services > Add a new Service
+```
+
+On the **Add Service** screen the following fields are required:
+
+```
+label : <any>
+description : <any>
+client_id : ccd_gateway
+client_secret : ccd_gateway_secret
+new redirect_uri (click 'Add URI' before saving) : http://localhost:3451/oauth2redirect
+```
+
+Follow below steps to configure XUI Webapp on SIDAM Web Admin
+
+On the **Add Service** screen the following fields are required:
+
+```
+label : <xui_webapp>
+description : <xui_webapp>
+client_id : xui_webapp
+client_secret : xui_webapp_secrect
+new redirect_uri (click 'Add URI' before saving) : http://localhost:3455/oauth2/callback
+client scope: profile openid roles manage-user create-user
+```
+
+
+### 2. Create Idam roles
+
+Execute the following script to add roles to SIDAM:
+
+```bash
+./bin/add-roles.sh
+```
+
+The script parses `bin/users.json` and loops through a list of unique roles, passing the role to the `idam-add-role.sh` 
+script
+
+To add any further IDAM roles, for example "myNewIdamRole", run the script as follows
+
+```bash
+    ./bin/utils/idam-add-role.sh "myNewIdamRole"
+``` 
+ 
+---
+**NOTE**
+
+The script adds roles under a _GLOBAL_ namespace and so until the users assigned to these roles are added,
+you cannot verify them using SIDAM Web UI
+
+--- 
+
+#### Manual Configuration steps
+
+Any roles should be configured for ccd-gateway client/service, on SIDAM Web Admin.
+
+You need to login to the SIDAM Web Admin with the URL and logic credentials here: https://tools.hmcts.net/confluence/x/eQP3P
+
+`Navigate to Home > Manage Roles > Select Your Service > Role Label`
+
+Don't worry about the *Assignable roles* section when adding roles
+
+Once the roles are defined under the client/service, go to the service configuration for the service you created in 
+Step 1 (`Home > Manage Services > select your service`) and select `ccd-import` role radio option under 
+**Private Beta Role** section
+ 
+**Any business-related roles like `caseworker`,`caseworker-<jurisdiction>` etc to be used in CCD later must also be defined under the client configuration at this stage.**
+
+#### Adding a role to CCD
+
+By default most FTA (Feature test automation) packs load their own roles into CCD via the definition store each time 
+the feature tests are run
+
+To add a further role to CCD (by importing it into the definition store), run the following script
+
 ###### Create roles and users
 ```bash
    ./bin/ccd-add-all-div-roles.sh
@@ -540,6 +654,42 @@ Optional compose files will allow other projects to be enabled on demand using t
   * `./ccd enable elasticsearch` (assuming `backend` is already enabled, otherwise enable it)
   * export ES_ENABLED_DOCKER=true
   * verify that Data Store is able to connect to elasticsearch: `curl localhost:4452/health` 
+  
+* To enable **logstash**  
+* `./ccd enable logstash` (assuming `elasticsearch` is already enabled, otherwise enable it)
+
+* To run **service specific logstash instance**
+  * First build the local log stash instances for all services using instructions on ccd-logstash [ccd-logstash](https://github.com/hmcts/ccd-logstash)
+  * Export CCD_LOGSTASH_SERVICES environment variable to use service specific logstash instances
+  * If CCD_LOGSTASH_SERVICES is not exported, then `ccd-logstash:latest` will be used
+  * Make sure to set the below two environment variables in `.env` file
+  * By default CCD_LOGSTASH_REPOSITORY_URL is point to remote repository `hmctspublic.azurecr.io`, this is defined in `.env` file.
+
+```bash
+    CCD_LOGSTASH_REPOSITORY_URL=hmctspublic.azurecr.io
+```
+  
+   * For local docker repository please change the values as below
+   
+```bash
+    CCD_LOGSTASH_REPOSITORY_URL=hmcts
+```
+   * To run service specific instances of logstash, give service names a comma serparated string as below
+   
+```bash
+    export CCD_LOGSTASH_SERVICES=divorce,sscs,ethos,cmc,probate
+```
+
+   * To run all service instances of logstash
+   
+```bash
+    CCD_LOGSTASH_SERVICES=all
+```
+OR 
+
+```bash
+    CCD_LOGSTASH_SERVICES=testall
+```
 
 * To enable **ccd-definition-designer-api**
   * `./ccd enable backend ccd-definition-designer-api`
